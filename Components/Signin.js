@@ -5,12 +5,12 @@ import firestore from '@react-native-firebase/firestore';
 import firebase from '@react-native-firebase/app'
 import { Content, Item, Input, Label, Button, Text, Left, Body, Right, Icon, } from 'native-base';
 import Geolocation from '@react-native-community/geolocation';
-import Ionicons  from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useDispatch } from 'react-redux';
 import * as auththenticate from './Store/action';
 const { width, height } = Dimensions.get('window');
 
-export default function SignIn({navigation}) {
+export default function SignIn({ navigation }) {
 
     const dispatch = useDispatch()
 
@@ -35,8 +35,8 @@ export default function SignIn({navigation}) {
             auth().signInWithEmailAndPassword(signinemail, signinpassword)
                 .then((res) => {
                     console.log('Signed In Successful!', res)
-                    navigation.replace('Home',{email:signinemail})
-                     
+                    navigation.replace('Home', { email: signinemail })
+
                     //  dispatch(auththenticate.LoginUser({
                     //     UserEmail: signinemail,
                     // })  )
@@ -63,9 +63,10 @@ export default function SignIn({navigation}) {
     return (
         <View style={styles.container}>
             <StatusBar backgroundColor="#d2232a" />
-            <Image source={{ uri: 'https://res.cloudinary.com/ds62zhv7k/image/upload/v1611487990/sadas_qhpztv.png' }}
-                style={{ backgroundColor: '#d2232a', resizeMode: 'contain', height: 150, marginTop: 45 }} />
-
+            <View style={{alignItems:'center'}}>
+                <Image source={require('./Images/splasht.png')}
+                    style={{ backgroundColor: '#d2232a', resizeMode: 'contain', height: 150, marginTop: 45 }} />
+            </View>
             <Content style={{ marginHorizontal: 25, alignContent: 'center' }}>
 
                 <Item floatingLabel style={{ marginBottom: 15, marginTop: 5, color: '#ffff' }}>
@@ -103,7 +104,7 @@ export default function SignIn({navigation}) {
 
                 <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                     <Text style={{ color: 'white', fontWeight: 'bold', marginVertical: 5 }}>Don't have an account? </Text>
-                    <TouchableOpacity activeOpacity={0.5} onPress={() =>  {navigation.navigate('Signup')}}
+                    <TouchableOpacity activeOpacity={0.5} onPress={() => { navigation.navigate('Signup') }}
                         style={{ height: 20, marginVertical: 5 }}>
                         <Text style={{ color: 'white', fontWeight: 'bold', }}> Create account</Text>
                     </TouchableOpacity>

@@ -46,9 +46,9 @@ export default function Navigation() {
         // barStyle="dark-content" 
         />
         <View style={{ flex: 1, backgroundColor: '#d2232a', alignItems: 'center', justifyContent: "center" }} >
-          <Image source={{ uri: 'https://res.cloudinary.com/ds62zhv7k/image/upload/v1611487990/sadas_qhpztv.png' }}
+          <Image source={require('../Images/splasht.png')}
             style={{ flex: 1, backgroundColor: '#d2232a', width: "50%", resizeMode: 'contain', }} />
-          <Image source={{ uri: 'https://res.cloudinary.com/ds62zhv7k/image/upload/v1611600737/dsa_zghdds.png' }}
+          <Image source={require('../Images/splashb.png')}
             style={{ flex: 1, backgroundColor: '#d2232a', width: "70%", resizeMode: 'contain' }} />
         </View>
       </Modal>
@@ -63,7 +63,7 @@ export default function Navigation() {
         {/* </> */}
         {/* : */}
         {/* <> */}
-          <Stack.Screen name="Home" component={Homes}  options={{headerShown: false}} />   
+          <Stack.Screen name="Home" component={Homes}  options={{headerShown: false}} />
           <Stack.Screen name="Map" component={Map}  options={{headerShown: false}} />
           <Stack.Screen name="Set" component={Setting}  options={{headerShown: false}} />
           <Stack.Screen name="who" component={Whocandonate} options={{headerShown: false}} />

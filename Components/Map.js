@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Image, Dimensions, StatusBar, TouchableOpacity, Text, PermissionsAndroid } from 'react-native'
 const { width, height } = Dimensions.get('window');
 import firestore from '@react-native-firebase/firestore';
-import Ionicons  from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Geolocation from '@react-native-community/geolocation';
-import MapView, { PROVIDER_GOOGLE, Marker, Circle, Callout } from 'react-native-maps';
-import pin from './pin.png'
+import MapView, { PROVIDER_GOOGLE, Marker, Circle, Callout, Polyline } from 'react-native-maps';
+import { decode } from "@mapbox/polyline";
 
 
 export default function Map({ navigation, route }) {
@@ -43,6 +43,64 @@ export default function Map({ navigation, route }) {
     console.log("Curent LONG===", lo)
 
 
+    console.log("Curent LONG==dasdsadsaddddddddddddddd=", route.params.laroute)
+    console.log("Curent LONG==dasdsadsaddddddddddddddd=", route.params.loroute)
+
+
+    // direction(startLoc, destinationLoc)
+
+    // const direction = async ()=>{
+    //     try {
+    //         let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`)
+    //         let respJson = await resp.json();
+    //         let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+    //         let coords = points.map((point, index) => {
+    //             return  {
+    //                 latitude : point[0],
+    //                 longitude : point[1]
+    //             }
+    //         })
+    //         this.setState({coords: coords})
+    //         return coords
+    //     } catch(error) {
+    //         return error
+    //     }
+    // }
+
+    const getDirections = async (startLoc, destinationLoc) => {
+        try {
+            const KEY = "AIzaSyCAwjvt8eZER4w6PpdvfzeqmSnRN_obry4";
+            let resp = await fetch(
+                `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}&key=${KEY}`
+            );
+            console.log("resp====>", resp)
+            let respJson = await resp.json();
+            let points = decode(respJson.routes[0].overview_polyline.points);
+            console.log("points=======>", points);
+            let coords = points.map((point, index) => {
+                console.log("coords=======>", coords);
+                return {
+                    latitude: point[0],
+                    longitude: point[1]
+                };
+
+            });
+            return coords;
+        } catch (error) {
+            return error;
+        }
+    };
+
+
+    const [cords, setCords] = useState([]);
+
+    useEffect(() => {
+        getDirections("40.1884979, 29.061018", "41.0082,28.9784")
+            .then(coords => setCords(coords))
+            .catch(err => console.log("Something went wrong"));
+    }, [])
+
+    console.log(";;;;;;;;;;;;;;;;;;;;;;;;;;===>", cords)
 
     return (
         <View>
@@ -68,42 +126,57 @@ export default function Map({ navigation, route }) {
 
             <View style={styles.container}>
                 <MapView
-                minZoomLevel={4}  // default => 0
-                maxZoomLevel={20} // default => 20
-                enableZoomControl={true}
-                showsUserLocation = {true}
-                showsMyLocationButton = {true}
-                zoomEnabled = {true}
+                    minZoomLevel={4}  // default => 0
+                    maxZoomLevel={20} // default => 20
+                    enableZoomControl={true}
+                    showsUserLocation={true}
+                    showsMyLocationButton={true}
+                    zoomEnabled={true}
                     provider={PROVIDER_GOOGLE}
                     style={styles.map}
-                    // pinColor='red'
                     region={{
                         latitude: Number(la),
                         longitude: Number(lo),
                         latitudeDelta: 0.015,
                         longitudeDelta: 0.0121,
-                    }} >       
-                        <Marker
-                            coordinate={{
-                                latitude: Number(la),
-                                longitude: Number(lo),
-                            }} >
+                    }} >
 
-                            <Callout>
-                                <View style={{ alignItems:'center', marginTop:-20}}>  
-                                     <View>  
-                                         <Text style={{paddingBottom:35}}> 
-                                             <Image source={{ uri: 'https://www.seekpng.com/png/detail/402-4022635_avatar-generic-person-icon.png' }}
-                                             style={{ width: 70, height: 75, borderRadius: 10}} />
-                                         </Text>
-                                     </View>  
-                                     <View  style={{width:120,paddingTop:1,alignItems:'center' }}>  
-                                        <Text style={{ fontSize: 17, fontWeight: 'bold', textTransform: 'uppercase'}} >Me</Text>
-                                     </View>  
+                    {/* <Polyline coordinates={cords} strokeColor="red" strokeWidth={2} /> */}
+
+                    <Polyline
+                        coordinates={[
+                            { latitude: Number(la), longitude: Number(lo) },
+                            { latitude: Number(route.params.laroute), longitude: Number(route.params.loroute) },
+                        ]}
+                        strokeColor="#69A0FA"
+                        strokeWidth={2.5}
+                    />
+
+                    <Marker
+                        pinColor={'skyblue'}
+                        draggable
+                        onDragEnd={(e) => { e.nativeEvent.coordinate }}
+                        // pinColor={'skyblue'}
+                        coordinate={{
+                            latitude: Number(la),
+                            longitude: Number(lo),
+                        }} >
+
+                        <Callout>
+                            <View style={{ alignItems: 'center', marginTop: -20 }}>
+                                <View>
+                                    <Text style={{ paddingBottom: 35 }}>
+                                        <Image source={require('./Images/mylocation.jpg')}
+                                            style={{ width: 70, height: 75, borderRadius: 10 }} />
+                                    </Text>
                                 </View>
-                            </Callout >
-                            
-                        </Marker>
+                                <View style={{ width: 120, paddingTop: 1, alignItems: 'center' }}>
+                                    <Text style={{ fontSize: 17, fontWeight: 'bold', textTransform: 'uppercase' }} >Me</Text>
+                                </View>
+                            </View>
+                        </Callout >
+
+                    </Marker>
 
 
                     {locationData.map((d, i) => {
@@ -117,32 +190,32 @@ export default function Map({ navigation, route }) {
                             height={48} >
 
                             <Callout>
-                                     <View style={{ alignItems:'center', marginTop:-22}}>  
-                                     <View>  
+                                <View style={{ alignItems: 'center', marginTop: -22 }}>
+                                    <View>
 
-                                      <Text style={{paddingBottom:35}}> 
-                                      {d.gender=='Female'?
-                                      <Image source={{ uri: 'https://www.pngarts.com/files/3/Avatar-PNG-High-Quality-Image.png' }}
-                                         style={{ width: 70, height: 70, borderRadius: 50,}} />
-                                          :
-                                      <Image source={{ uri: 'https://cdn.iconscout.com/icon/free/png-512/avatar-370-456322.png' }}
-                                          style={{ width: 70, height: 70, borderRadius: 50 }} />
-                                         }</Text>
-                                     </View>  
+                                        <Text style={{ paddingBottom: 35 }}>
+                                            {d.gender == 'Female' ?
+                                                <Image source={require('./Images/female.png')}
+                                                    style={{ width: 70, height: 70, borderRadius: 50, }} />
+                                                :
+                                                <Image source={require('./Images/male.webp')}
+                                                    style={{ width: 70, height: 70, borderRadius: 50 }} />
+                                            }</Text>
+                                    </View>
 
-                                     <View  style={{width:120,paddingTop:1,alignItems:'center' }}>  
-                                        <Text style={{ fontSize: 15, fontWeight: 'bold', textTransform: 'capitalize'}} >{d.fn} {d.ln}</Text>
-                                        <Text style={{ fontSize: 15, fontWeight: 'bold', textTransform: 'uppercase'}}>{d.bloodgroup}</Text>
-                                        <Text style={{ fontSize: 15, fontWeight: 'bold', textTransform: 'capitalize'}}>{d.address}</Text>
-                                     </View>  
-                                    
+                                    <View style={{ width: 120, paddingTop: 1, alignItems: 'center' }}>
+                                        <Text style={{ fontSize: 15, fontWeight: 'bold', textTransform: 'capitalize' }} >{d.fn} {d.ln}</Text>
+                                        <Text style={{ fontSize: 15, fontWeight: 'bold', textTransform: 'uppercase' }}>{d.bloodgroup}</Text>
+                                        <Text style={{ fontSize: 15, fontWeight: 'bold', textTransform: 'capitalize' }}>{d.address}</Text>
+                                    </View>
+
                                 </View>
                             </Callout >
 
                         </Marker>
                     })}
 
-                    
+
                     {/* {locationData.map((d, i) => {
                         return <Marker
                             key={i}

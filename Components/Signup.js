@@ -6,13 +6,13 @@ import firebase from '@react-native-firebase/app'
 import { Content, Item, Input, Label, Button, Text, Left, Body, Right, Icon, } from 'native-base';
 import RNPickerSelect from 'react-native-picker-select';
 import Geolocation from '@react-native-community/geolocation';
-import Ionicons  from 'react-native-vector-icons/Ionicons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 const { width, height } = Dimensions.get('window');
 
 
-export default function Signup({navigation}) {
+export default function Signup({ navigation }) {
 
-  const requestLocationPermission = async () => {
+    const requestLocationPermission = async () => {
         try {
             const granted = await PermissionsAndroid.request(
                 PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
@@ -123,8 +123,8 @@ export default function Signup({navigation}) {
                         setPn("")
                         setSignupemail("")
                         setSignuppassword("")
-                        Alert.alert('Congratulations', 'Your Account Has Been Created! Proceed To LogIn');
                         navigation.replace('Signin')
+                        Alert.alert('Congratulations' +fn , 'You Are SuccessFully Register In Blood Bank! Proceed To LogIn');
                     })
                 })
                 .catch(error => {
@@ -147,146 +147,146 @@ export default function Signup({navigation}) {
     }
 
 
-    return ( 
-            <View style={{ flex: 1, backgroundColor: "#d2232a", width: '100%', height: '100%', justifyContent: 'center' }}>
+    return (
+        <View style={{ flex: 1, backgroundColor: "#d2232a", width: '100%', height: '100%', justifyContent: 'center' }}>
 
-                    <Content style={{ marginHorizontal: 25, marginTop: 5 }}>
+            <Content style={{ marginHorizontal: 25, marginTop: 5 }}>
 
-                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                            <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()}
-                                style={{ marginLeft: -20, marginVertical: 14, width: 30 }}>
-                                <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 27, }}>
-                                    <Ionicons name="md-chevron-back" size={30} color="#ffff" />
-                                    </Text>
-                            </TouchableOpacity>
-                            <Text style={{ color: 'white', fontWeight: 'bold', marginVertical: 15, fontSize: 20 }}>CREATE ACCOUNT</Text>
-                            <Text></Text>
-                        </View>
-
-
-
-                        <Item floatingLabel style={{ marginBottom: 15, marginTop: 4, color: '#ffff' }}>
-                            <Label style={{ color: '#ffff' }}>First Name</Label>
-                            <Input
-                                maxLength={20}
-                                keyboardType='default'
-                                style={{ color: '#ffff' }}
-                                onChangeText={text => setFn(text)}
-                                value={fn} />
-                        </Item>
-
-                        <Item floatingLabel style={{ marginBottom: 15, color: '#ffff' }}>
-                            <Label style={{ color: '#ffff' }}>Last Name</Label>
-                            <Input
-                                maxLength={20}
-                                keyboardType='default'
-                                style={{ color: '#ffff' }}
-                                onChangeText={text => setLn(text)}
-                                value={ln} />
-                        </Item>
-
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, }}>
-
-                            <View style={{ width: '48%', }}>
-                                <RNPickerSelect onValueChange={(text) => { setGender(text) }}
-                                    placeholder={{ label: "Gender ▼", value: null }}
-                                    style={{ ...pickerSelectStyles }}
-                                    itemStyle={{ color: "white" }}
-                                    useNativeAndroidPickerStyle={false}
-                                    items={[
-                                        { label: 'Male', value: 'Male' },
-                                        { label: 'Female', value: 'Female' },
-                                    ]}
-                                />
-                            </View>
-
-                            <View style={{ width: '48%' }}>
-                                <RNPickerSelect onValueChange={(text) => { setBloodgroup(text) }}
-                                    placeholder={{ label: "Blood Group ▼", value: null, }}
-                                    style={{ ...pickerSelectStyles }}
-                                    useNativeAndroidPickerStyle={false}
-                                    items={[
-                                        { label: 'O+', value: 'O+' },
-                                        { label: 'A+', value: 'A+' },
-                                        { label: 'B+', value: 'B+' },
-                                        { label: 'AB+', value: 'AB+' },
-                                        { label: 'O-', value: 'O-' },
-                                        { label: 'A-', value: 'A-' },
-                                        { label: 'B-', value: 'B-' },
-                                        { label: 'AB-', value: 'AB-' },
-                                    ]}
-                                />
-                            </View>
-                        </View>
-
-
-                        <Item floatingLabel style={{ marginBottom: 14, color: '#ffff' }}>
-                            <Label style={{ color: '#ffff' }}>Phone Number</Label>
-                            <Input
-                                maxLength={11}
-                                keyboardType='phone-pad'
-                                style={{ color: '#ffff' }}
-                                onChangeText={text => setPn(text)}
-                                value={pn} />
-                        </Item>
-
-
-                        <Item floatingLabel style={{ marginBottom: 16, color: '#ffff' }}>
-                            <Label style={{ color: '#ffff' }}>Address</Label>
-                            <Input
-                                style={{ color: '#ffff' }}
-                                onChangeText={text => setAddress(text)}
-                                value={address} />
-                        </Item>
-
-                        <View style={{ marginBottom: 13, }}>
-                            <RNPickerSelect onValueChange={(text) => { setDoner(text) }}
-                                placeholder={{ label: "Are you a doner? ▼", value: null }}
-                                style={{ ...pickerSelectStyles }}
-                                useNativeAndroidPickerStyle={false}
-                                items={[
-                                    { label: 'Yes', value: 'Yes' },
-                                    { label: 'No', value: 'No' },
-                                ]}
-                            />
-                        </View>
-
-
-                        <Item floatingLabel style={{ marginBottom: 13, color: '#ffff' }}>
-                            <Label style={{ color: '#ffff' }}>Email</Label>
-                            <Input
-                                maxLength={20}
-                                keyboardType="email-address"
-                                style={{ color: '#ffff' }}
-                                onChangeText={text => setSignupemail(text)}
-                                value={signupemail} />
-                        </Item>
-
-                        <Item floatingLabel style={{ marginBottom: 15, color: '#ffff' }}>
-                            <Label style={{ color: '#ffff' }}>Password</Label>
-                            <Input
-                                maxLength={15}
-                                secureTextEntry={true}
-                                style={{ color: '#ffff' }}
-                                onChangeText={text => setSignuppassword(text)}
-                                value={signuppassword} />
-                        </Item>
-
-
-                        <TouchableOpacity activeOpacity={0.7}
-                            style={{ elevation: 3, flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffff', marginTop: 5, margin: 5, height: 50, borderRadius: 50, }}
-                            onPress={() => { userSignUp() }}>
-                            {su ?
-                                <ActivityIndicator size="small" color="black" />
-                                :
-                                <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 16 }}>CREATE</Text>
-                            }
-                        </TouchableOpacity>
-
-                    </Content>
+                <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                    <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()}
+                        style={{ marginLeft: -20, marginVertical: 14, width: 30 }}>
+                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 27, }}>
+                            <Ionicons name="md-chevron-back" size={30} color="#ffff" />
+                        </Text>
+                    </TouchableOpacity>
+                    <Text style={{ color: 'white', fontWeight: 'bold', marginVertical: 15, fontSize: 20 }}>CREATE ACCOUNT</Text>
+                    <Text></Text>
                 </View>
-            
-        
+
+
+
+                <Item floatingLabel style={{ marginBottom: 15, marginTop: 4, color: '#ffff' }}>
+                    <Label style={{ color: '#ffff' }}>First Name</Label>
+                    <Input
+                        maxLength={20}
+                        keyboardType='default'
+                        style={{ color: '#ffff' }}
+                        onChangeText={text => setFn(text)}
+                        value={fn} />
+                </Item>
+
+                <Item floatingLabel style={{ marginBottom: 15, color: '#ffff' }}>
+                    <Label style={{ color: '#ffff' }}>Last Name</Label>
+                    <Input
+                        maxLength={20}
+                        keyboardType='default'
+                        style={{ color: '#ffff' }}
+                        onChangeText={text => setLn(text)}
+                        value={ln} />
+                </Item>
+
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14, }}>
+
+                    <View style={{ width: '48%', }}>
+                        <RNPickerSelect onValueChange={(text) => { setGender(text) }}
+                            placeholder={{ label: "Gender ▼", value: null }}
+                            style={{ ...pickerSelectStyles }}
+                            itemStyle={{ color: "white" }}
+                            useNativeAndroidPickerStyle={false}
+                            items={[
+                                { label: 'Male', value: 'Male' },
+                                { label: 'Female', value: 'Female' },
+                            ]}
+                        />
+                    </View>
+
+                    <View style={{ width: '48%' }}>
+                        <RNPickerSelect onValueChange={(text) => { setBloodgroup(text) }}
+                            placeholder={{ label: "Blood Group ▼", value: null, }}
+                            style={{ ...pickerSelectStyles }}
+                            useNativeAndroidPickerStyle={false}
+                            items={[
+                                { label: 'O+', value: 'O+' },
+                                { label: 'A+', value: 'A+' },
+                                { label: 'B+', value: 'B+' },
+                                { label: 'AB+', value: 'AB+' },
+                                { label: 'O-', value: 'O-' },
+                                { label: 'A-', value: 'A-' },
+                                { label: 'B-', value: 'B-' },
+                                { label: 'AB-', value: 'AB-' },
+                            ]}
+                        />
+                    </View>
+                </View>
+
+
+                <Item floatingLabel style={{ marginBottom: 14, color: '#ffff' }}>
+                    <Label style={{ color: '#ffff' }}>Phone Number</Label>
+                    <Input
+                        maxLength={11}
+                        keyboardType='number-pad'
+                        style={{ color: '#ffff' }}
+                        onChangeText={text => setPn(text)}
+                        value={pn} />
+                </Item>
+
+
+                <Item floatingLabel style={{ marginBottom: 16, color: '#ffff' }}>
+                    <Label style={{ color: '#ffff' }}>Address</Label>
+                    <Input
+                        style={{ color: '#ffff' }}
+                        onChangeText={text => setAddress(text)}
+                        value={address} />
+                </Item>
+
+                <View style={{ marginBottom: 13, }}>
+                    <RNPickerSelect onValueChange={(text) => { setDoner(text) }}
+                        placeholder={{ label: "Are you a doner? ▼", value: null }}
+                        style={{ ...pickerSelectStyles }}
+                        useNativeAndroidPickerStyle={false}
+                        items={[
+                            { label: 'Yes', value: 'Yes' },
+                            { label: 'No', value: 'No' },
+                        ]}
+                    />
+                </View>
+
+
+                <Item floatingLabel style={{ marginBottom: 13, color: '#ffff' }}>
+                    <Label style={{ color: '#ffff' }}>Email</Label>
+                    <Input
+                        maxLength={20}
+                        keyboardType="email-address"
+                        style={{ color: '#ffff' }}
+                        onChangeText={text => setSignupemail(text)}
+                        value={signupemail} />
+                </Item>
+
+                <Item floatingLabel style={{ marginBottom: 15, color: '#ffff' }}>
+                    <Label style={{ color: '#ffff' }}>Password</Label>
+                    <Input
+                        maxLength={15}
+                        secureTextEntry={true}
+                        style={{ color: '#ffff' }}
+                        onChangeText={text => setSignuppassword(text)}
+                        value={signuppassword} />
+                </Item>
+
+
+                <TouchableOpacity activeOpacity={0.7}
+                    style={{ elevation: 3, flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#ffff', marginTop: 5, margin: 5, height: 50, borderRadius: 50, }}
+                    onPress={() => { userSignUp() }}>
+                    {su ?
+                        <ActivityIndicator size="small" color="black" />
+                        :
+                        <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 16 }}>CREATE</Text>
+                    }
+                </TouchableOpacity>
+
+            </Content>
+        </View>
+
+
     )
 }
 

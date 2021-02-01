@@ -35,7 +35,7 @@ export default function Whocandonate({ navigation }) {
                 }}>AM I COMPATIBLE WITH?</Text>
             </View>
 
-            <Image source={{ uri: 'https://res.cloudinary.com/ds62zhv7k/image/upload/v1611682466/jkdskjjkjf_aooeij.png' }}
+            <Image source={require('./Images/bloodgroups.png')}
                 style={{ flex: 0.7, backgroundColor: '#d2232a', width: '100%', resizeMode: 'contain', }} />
                 
         </View>
