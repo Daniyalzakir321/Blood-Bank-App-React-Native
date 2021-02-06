@@ -127,7 +127,7 @@ export default function Signup({ navigation }) {
                         setSignupemail("")
                         setSignuppassword("")
                         navigation.replace('Signin')
-                        Alert.alert('Congratulations ' +fn , 'You Are Successfully Register In Blood Bank! Proceed To LogIn');
+                        Alert.alert('Congratulations! ' +fn , 'You Are Successfully Register In Blood Bank! Proceed To LogIn');
                     })
                 })
                 .catch(error => {

@@ -47,17 +47,6 @@ export default function Map({ navigation, route }) {
     console.log("Curent LONG==dasdsadsaddddddddddddddd=", route.params.laroute)
     console.log("Curent LONG==dasdsadsaddddddddddddddd=", route.params.loroute)
 
-
-    const [cords, setCords] = useState([]);
-
-    useEffect(() => {
-        getDirections("40.1884979, 29.061018", "41.0082,28.9784")
-            .then(coords => setCords(coords))
-            .catch(err => console.log("Something went wrong"));
-    }, [])
-
-    console.log("Cordsss===>", cords)
-
     return (
         <View>
 
