@@ -23,15 +23,13 @@ export default function Navigation() {
   const [modal, setModal] = useState(true)
   setTimeout(() => {
     setModal(false)
-  }, 9000);
+  }, 3000);
 
   return (
     modal
       ?
       <Modal visible={modal} animationType="slide">
-        <StatusBar backgroundColor="#d2232a" style={{ color: 'white' }}  barStyle="light-content" 
-        // barStyle="dark-content" 
-        />
+        <StatusBar backgroundColor="#d2232a" style={{ color: 'white' }}  barStyle="light-content" />
         <View style={{ flex: 1, backgroundColor: '#d2232a', alignItems: 'center', justifyContent: "center" }} >
           <Image source={require('../Images/splasht.png')}
             style={{ flex: 1, backgroundColor: '#d2232a', width: "50%", resizeMode: 'contain', }} />
