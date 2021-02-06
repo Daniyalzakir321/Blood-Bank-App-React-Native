@@ -23,21 +23,8 @@ export default function Navigation() {
   const [modal, setModal] = useState(true)
   setTimeout(() => {
     setModal(false)
-  }, 3000);
+  }, 9000);
 
-  function MyStack() {
-    return (
-      <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home" >
-          <Drawer.Screen name="Home" component={Homes} />
-          <Drawer.Screen name="Map" component={Map} />
-          <Drawer.Screen name="who" component={Whocandonate} />
-        </Drawer.Navigator>
-      </NavigationContainer>
-    );
-  }
-
-  // HeaderMode='none'
   return (
     modal
       ?

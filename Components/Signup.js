@@ -75,6 +75,9 @@ export default function Signup({ navigation }) {
         if (fn.length == '' || ln.length == '' || address.length == '' || pn.length == '') {
             Alert.alert("User Information", "Text Field Can Not Be Empty")
         }
+        else if (pn.length < 11) {
+            Alert.alert("Phone Number", "Please Enter 11 Digits Phone Number")
+        }
         else if (gender == null) {
             Alert.alert("Gender", "Please Select Gender")
         }
@@ -124,7 +127,7 @@ export default function Signup({ navigation }) {
                         setSignupemail("")
                         setSignuppassword("")
                         navigation.replace('Signin')
-                        Alert.alert('Congratulations' +fn , 'You Are SuccessFully Register In Blood Bank! Proceed To LogIn');
+                        Alert.alert('Congratulations ' +fn , 'You Are Successfully Register In Blood Bank! Proceed To LogIn');
                     })
                 })
                 .catch(error => {

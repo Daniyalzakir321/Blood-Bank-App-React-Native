@@ -29,6 +29,7 @@ export default function Homes({ navigation, route }) {
                     bloodgroup: doc.data().BloodGroup,
                     address: doc.data().Address,
                     pn: doc.data().PhoneNum,
+                    doner: doc.data().Doner,
                     laroute: doc.data().Latitude,
                     loroute: doc.data().Longitude,
                     dateTime: doc.data().DateTime,
@@ -44,9 +45,7 @@ export default function Homes({ navigation, route }) {
         .then((res) => {
         console.log('LogOut Successful!')
         navigation.replace('Signin')
-        //     dispatch(auththenticate.LoginUser({
-        //     UserEmail: '' , })
-        // )
+        // dispatch(auththenticate.LogoutUser())
         })
         .catch(function(error) {
             console.log("Error", error.message);
@@ -57,7 +56,7 @@ export default function Homes({ navigation, route }) {
         return f.bloodgroup.toLowerCase().includes(search.toLowerCase())
     })
 
-    // const e_mail = route.params.email
+    const e_mail = route.params.email
 
     return (
         <View style={styles.container}>
@@ -87,8 +86,7 @@ export default function Homes({ navigation, route }) {
                             <Text style={{ fontSize: 15, fontWeight: 'bold', color: 'red', textShadowColor: 'grey', textShadowOffset: { width: 0.1, height: 1 }, textShadowRadius: 2 }}>Groups</Text>
                         </TouchableOpacity>
                     </View>
-
-
+                    
                 </ImageBackground>
             </View>
 
@@ -122,7 +120,7 @@ export default function Homes({ navigation, route }) {
                     <Ionicons name="search" size={17} color="grey" />
                 </TouchableOpacity>
 
-                <TouchableOpacity activeOpacity={0.8} onPress={() => { navigation.navigate('Set', { }) }} style={{ backgroundColor: '#ffff', borderRadius: 10, padding: 10, elevation: 5, alignItems: 'center' }} >
+                <TouchableOpacity activeOpacity={0.8} onPress={() => { navigation.navigate('Set', {email: e_mail }) }} style={{ backgroundColor: '#ffff', borderRadius: 10, padding: 10, elevation: 5, alignItems: 'center' }} >
                     <Ionicons name="md-settings-outline" size={20} color="black" />
                 </TouchableOpacity>
             </View>
@@ -131,7 +129,8 @@ export default function Homes({ navigation, route }) {
 
             <ScrollView style={styles.end}>
                 {filterSearch.map((d, i) => {
-                    return <TouchableOpacity activeOpacity={0.8} onPress={() => {
+                    return <>{d.doner=='Yes'?
+                        <TouchableOpacity activeOpacity={0.8} onPress={() => {
                         navigation.navigate('Map', {
                             key: d.Id,
                             fn: d.fn,
@@ -167,6 +166,9 @@ export default function Homes({ navigation, route }) {
                             <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'red', textShadowColor: 'grey', textShadowOffset: { width: 0.1, height: 1 }, textShadowRadius: 2, marginRight: 5 }}>{d.bloodgroup}</Text>
                         </View>
                     </TouchableOpacity>
+                    :<></>
+                    }
+                    </>
                 })}
             </ScrollView>
 

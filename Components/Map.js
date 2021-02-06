@@ -21,6 +21,7 @@ export default function Map({ navigation, route }) {
                     gender: doc.data().Gender,
                     bloodgroup: doc.data().BloodGroup,
                     address: doc.data().Address,
+                    doner: doc.data().Doner,
                     ala: doc.data().Latitude,
                     alo: doc.data().Longitude,
                 }))
@@ -47,51 +48,6 @@ export default function Map({ navigation, route }) {
     console.log("Curent LONG==dasdsadsaddddddddddddddd=", route.params.loroute)
 
 
-    // direction(startLoc, destinationLoc)
-
-    // const direction = async ()=>{
-    //     try {
-    //         let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`)
-    //         let respJson = await resp.json();
-    //         let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
-    //         let coords = points.map((point, index) => {
-    //             return  {
-    //                 latitude : point[0],
-    //                 longitude : point[1]
-    //             }
-    //         })
-    //         this.setState({coords: coords})
-    //         return coords
-    //     } catch(error) {
-    //         return error
-    //     }
-    // }
-
-    const getDirections = async (startLoc, destinationLoc) => {
-        try {
-            const KEY = "AIzaSyCAwjvt8eZER4w6PpdvfzeqmSnRN_obry4";
-            let resp = await fetch(
-                `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}&key=${KEY}`
-            );
-            console.log("resp====>", resp)
-            let respJson = await resp.json();
-            let points = decode(respJson.routes[0].overview_polyline.points);
-            console.log("points=======>", points);
-            let coords = points.map((point, index) => {
-                console.log("coords=======>", coords);
-                return {
-                    latitude: point[0],
-                    longitude: point[1]
-                };
-
-            });
-            return coords;
-        } catch (error) {
-            return error;
-        }
-    };
-
-
     const [cords, setCords] = useState([]);
 
     useEffect(() => {
@@ -100,7 +56,7 @@ export default function Map({ navigation, route }) {
             .catch(err => console.log("Something went wrong"));
     }, [])
 
-    console.log(";;;;;;;;;;;;;;;;;;;;;;;;;;===>", cords)
+    console.log("Cordsss===>", cords)
 
     return (
         <View>
@@ -180,7 +136,7 @@ export default function Map({ navigation, route }) {
 
 
                     {locationData.map((d, i) => {
-                        return <Marker
+                        return <>{d.doner=='Yes'? <Marker
                             key={i}
                             coordinate={{
                                 latitude: Number(d.ala),
@@ -213,38 +169,14 @@ export default function Map({ navigation, route }) {
                             </Callout >
 
                         </Marker>
+                        :
+                        <></>
+                        }
+                        </>
+                        
+                        
                     })}
 
-
-                    {/* {locationData.map((d, i) => {
-                        return <Marker
-                            key={i}
-                            center={{
-                                latitude: Number(d.ala),
-                                longitude: Number(d.alo),
-                            }}
-                            radius={200}
-                            fillColor={'#AADAFF'}
-                            // image={require('./pin.png')}
-                            width={48}
-                            height={48}
-                            title={d.fn + " " + d.ln+"    "+  d.bloodgroup}
-                            description={"Gender: "+d.gender}
-                        >
-                        <Image source={require('./pin.png')} style={{height: 45, width:45 }} />
-                        </Marker>
-                    })} */}
-
-
-                    {/* <Marker
-                        coordinate={{
-                            latitude: la,
-                            longitude: lo,
-                        }}
-                        // image={require('./pin.png')}
-                        title={route.params.fn + " " + route.params.ln}
-                        description={"Blood Group " + route.params.bg}
-                    /> */}
                 </MapView>
             </View>
 

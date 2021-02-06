@@ -37,9 +37,9 @@ export default function SignIn({ navigation }) {
                     console.log('Signed In Successful!', res)
                     navigation.replace('Home', { email: signinemail })
 
-                    //  dispatch(auththenticate.LoginUser({
-                    //     UserEmail: signinemail,
-                    // })  )
+                     dispatch(auththenticate.LoginUser({
+                        UserEmail: signinemail,
+                    })  )
                 })
                 .catch(error => {
                     if (error.code === 'auth/email-already-in-use') {
