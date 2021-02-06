@@ -14,4 +14,4 @@
 *  *More++*
 
    *[Release Blood Bank .APK Download Link](https://drive.google.com/file/d/1DBPdMWt7jkuxqVTm3i1P-Kg10rGtPJoE/view?usp=sharing)*                  
-   *[Watch Video](https://youtu.be/HFLgplJiRyQ)*
+   *[Watch Video](https://youtu.be/wVldJwoRBXs)*
