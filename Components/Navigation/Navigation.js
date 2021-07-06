@@ -12,11 +12,61 @@ import BloodBanksLocations from '../Bloodbanklocations'
 import Setting from '../Settings'
 import Signup from '../Signup'
 import { useSelector } from 'react-redux'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Onboarding from './onboarding';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 export default function Navigation() {
+  const [asyncLoginAuth, setAsyncLoginAuth] = useState(null)
+  const [onboardingAsync, setOnboardingAsync] = useState(null)
+
+  useEffect(() => {
+    getOnboarding()
+    getUserData()
+  }, [])
+
+
+  const getOnboarding =  () => {
+    try {
+         AsyncStorage.getItem('ONBOARD')
+        .then((value) => {
+          if (value == null) {
+          AsyncStorage.setItem('ONBOARD','true' )
+            console.log('Onboarding IF=====>', onboardingAsync)
+            setOnboardingAsync(true)
+          }
+          else {
+            setOnboardingAsync(null)
+          }
+        })
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
+  AsyncStorage.getItem('ONBOARD')
+    .then((value) => {
+      console.log('GET Onboarding Value====>', onboardingAsync)
+    })
+
+
+  const getUserData = async () => {
+    try {
+      await AsyncStorage.getItem('SIGNINEMAIL')
+        .then((value) => {
+          if (value != null) {
+            console.log('SIGNINEMAIL Navigation==>', value)
+            setAsyncLoginAuth(value)
+          }
+        })
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
 
   const data = useSelector(state => state.user)
 
@@ -25,38 +75,58 @@ export default function Navigation() {
     setModal(false)
   }, 3000);
 
-  return (
-    modal
-      ?
-      <Modal visible={modal} animationType="slide">
-        <StatusBar backgroundColor="#d2232a" style={{ color: 'white' }}  barStyle="light-content" />
-        <View style={{ flex: 1, backgroundColor: '#d2232a', alignItems: 'center', justifyContent: "center" }} >
-          <Image source={require('../Images/splasht.png')}
-            style={{ flex: 1, backgroundColor: '#d2232a', width: "50%", resizeMode: 'contain', }} />
-          <Image source={require('../Images/splashb.png')}
-            style={{ flex: 1, backgroundColor: '#d2232a', width: "70%", resizeMode: 'contain' }} />
-        </View>
-      </Modal>
-      :
+  const showSreens = () => {
+    return <>
+      {asyncLoginAuth ? <>
+        <Stack.Screen name="Home" component={Homes} />
+        <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="Set" component={Setting} />
+        <Stack.Screen name="who" component={Whocandonate} />
+        <Stack.Screen name="BBL" component={BloodBanksLocations} />
+      </> : <>
+        <Stack.Screen name="Signin" component={SignIn} />
+        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen name="Home" component={Homes} />
+        <Stack.Screen name="Map" component={Map} />
+        <Stack.Screen name="Set" component={Setting} />
+        <Stack.Screen name="who" component={Whocandonate} />
+        <Stack.Screen name="BBL" component={BloodBanksLocations} />
+      </>}
+    </>
+  }
 
-      <NavigationContainer>
-        <Stack.Navigator > 
-        {/* {data.UserEmail==''? */}
-        {/* <> */}
-          <Stack.Screen name="Signin" component={SignIn} options={{headerShown: false}} />
-          <Stack.Screen name="Signup" component={Signup}  options={{headerShown: false}} />
-        {/* </> */}
-        {/* : */}
-        {/* <> */}
-          <Stack.Screen name="Home" component={Homes}  options={{headerShown: false}} />
-          <Stack.Screen name="Map" component={Map}  options={{headerShown: false}} />
-          <Stack.Screen name="Set" component={Setting}  options={{headerShown: false}} />
-          <Stack.Screen name="who" component={Whocandonate} options={{headerShown: false}} />
-          <Stack.Screen name="BBL" component={BloodBanksLocations} options={{headerShown: false}} />
-        {/* </> */}
-          {/* } */}
-        </Stack.Navigator>
-      </NavigationContainer>
+  return (
+    // modal
+    //   ?
+    //   <Modal visible={modal} animationType="slide">
+    //     <StatusBar backgroundColor="#d2232a" style={{ color: 'white' }}  barStyle="light-content" />
+    //     <View style={{ flex: 1, backgroundColor: '#d2232a', alignItems: 'center', justifyContent: "center" }} >
+    //       <Image source={require('../Images/splasht.png')}
+    //         style={{ flex: 1, backgroundColor: '#d2232a', width: "50%", resizeMode: 'contain', }} />
+    //       <Image source={require('../Images/splashb.png')}
+    //         style={{ flex: 1, backgroundColor: '#d2232a', width: "70%", resizeMode: 'contain' }} />
+    //     </View>
+    //   </Modal>
+    //   : 
+
+
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }} >
+        {
+         onboardingAsync==null?
+          <>
+            {/* <Stack.Screen name="OnBoarding" component={Onboarding} /> */}
+            {showSreens()} 
+          </>
+        : onboardingAsync ?
+            <>
+              <Stack.Screen name="OnBoarding" component={Onboarding} />
+              {showSreens()}
+            </>
+         :null
+        }
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 
@@ -64,8 +134,7 @@ export default function Navigation() {
 
 
 
-         {/* //  options={{
-          //    title: 'Blood Bank',
+{/*: 'Blood Bank',
           //    headerTintColor: '#ffff',
           //    headerStyle: {
           //    backgroundColor: '#d2232a',
@@ -74,6 +143,5 @@ export default function Navigation() {
     // headerLeft: () => (
     //   <DrawerButton onPress={() => navigation.toggleDrawer()} />
     // ), */}
- 
-        {/*  screenOptions={{ headerShown: false }} */}
- 
+
+{/*  screenOptions={{ headerShown: false }} */ }

@@ -134,15 +134,15 @@ export default function Signup({ navigation }) {
                     if (error.code === 'auth/email-already-in-use') {
                         Alert.alert('This email address is already in use!');
                     }
-                    if (error.code === 'auth/invalid-email') {
+                   else if (error.code === 'auth/invalid-email') {
                         Alert.alert('This email address is invalid!');
                     }
-                    if (error.code === 'auth/weak-password') {
+                   else if (error.code === 'auth/weak-password') {
                         Alert.alert('Weak Password!');
                     }
-                    // if (error) {
-                    // Alert.alert("Error", error.message);
-                    // }
+                   else if (error) {
+                    Alert.alert("Error", error.message);
+                    }
                     // console.error(error);
                     // console.log(error.message);
                 })

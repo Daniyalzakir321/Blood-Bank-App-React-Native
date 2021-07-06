@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, Image, Dimensions, StatusBar, TouchableOpacity, Text, PermissionsAndroid } from 'react-native'
+import { StyleSheet, View, Image, Dimensions, StatusBar, TouchableOpacity, Text, PermissionsAndroid,Platform } from 'react-native'
 const { width, height } = Dimensions.get('window');
 import firestore from '@react-native-firebase/firestore';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Geolocation from '@react-native-community/geolocation';
 import MapView, { PROVIDER_GOOGLE, Marker, Circle, Callout, Polyline } from 'react-native-maps';
 import { decode } from "@mapbox/polyline";
+import Share from 'react-native-share';
 
 
 export default function Map({ navigation, route }) {
+      
+      const socialShare = async (d) => {
+        const shareOptions = {
+            // title: `Hi There `,
+            message: `Hi There... \nWe found a blood group for you. \nHere are the details of donor: \n\nName: ${d.fn} ${d.ln} \nGroup: ${d.bloodgroup} \nPhone: ${d.pn} \nAddress: ${d.address}`,
+            url: '\n\nFor details download our app: https://react-native-share.github.io',
+            // social: Share.Social.WHATSAPP,
+            // whatsAppNumber: "9199999999",  
+            // filename: 'test' , 
+          };
+
+        Share.open(shareOptions)  // Share.shareSingle(shareOptions)
+        .then((res) => { console.log(res) })
+        .catch((err) => { err && console.log(err); });
+      }
 
     const [locationData, setLocationData] = useState([])
     useEffect(() => {
@@ -22,6 +38,7 @@ export default function Map({ navigation, route }) {
                     bloodgroup: doc.data().BloodGroup,
                     address: doc.data().Address,
                     doner: doc.data().Doner,
+                    pn: doc.data().PhoneNum,
                     ala: doc.data().Latitude,
                     alo: doc.data().Longitude,
                 }))
@@ -47,24 +64,80 @@ export default function Map({ navigation, route }) {
     console.log("Curent LONG==dasdsadsaddddddddddddddd=", route.params.laroute)
     console.log("Curent LONG==dasdsadsaddddddddddddddd=", route.params.loroute)
 
+
+    // direction(startLoc, destinationLoc)
+
+    // const direction = async ()=>{
+    //     try {
+    //         let resp = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${ startLoc }&destination=${ destinationLoc }`)
+    //         let respJson = await resp.json();
+    //         let points = Polyline.decode(respJson.routes[0].overview_polyline.points);
+    //         let coords = points.map((point, index) => {
+    //             return  {
+    //                 latitude : point[0],
+    //                 longitude : point[1]
+    //             }
+    //         })
+    //         this.setState({coords: coords})
+    //         return coords
+    //     } catch(error) {
+    //         return error
+    //     }
+    // }
+
+    // const getDirections = async (startLoc, destinationLoc) => {
+    //     try {
+    //         const KEY = "AIzaSyCAwjvt8eZER4w6PpdvfzeqmSnRN_obry4";
+    //         let resp = await fetch(
+    //             `https://maps.googleapis.com/maps/api/directions/json?origin=${startLoc}&destination=${destinationLoc}&key=${KEY}`
+    //         );
+    //         console.log("resp====>", resp)
+    //         let respJson = await resp.json();
+    //         let points = decode(respJson.routes[0].overview_polyline.points);
+    //         console.log("points=======>", points);
+    //         let coords = points.map((point, index) => {
+    //             console.log("coords=======>", coords);
+    //             return {
+    //                 latitude: point[0],
+    //                 longitude: point[1]
+    //             };
+
+    //         });
+    //         return coords;
+    //     } catch (error) {
+    //         return error;
+    //     }
+    // };
+
+
+    // const [cords, setCords] = useState([]);
+
+    // useEffect(() => {
+    //     getDirections("40.1884979, 29.061018", "41.0082,28.9784")
+    //         .then(coords => setCords(coords))
+    //         .catch(err => console.log("Something went wrong"));
+    // }, [])
+
+    // console.log(";;;;;;;;;;;;;;;;;;;;;;;;;;===>", cords)
+
     return (
         <View>
 
             <StatusBar barStyle="light-content" backgroundColor="#d2232a" />
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', backgroundColor: "#d2232a", elevation: 5, width: '100%', }}>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()}
-                    style={{ marginLeft: -20, marginVertical: 14, width: 30, }}>
+                    style={{ marginLeft: -10, marginVertical: 14, width: 30, }}>
                     <Text style={{
                         color: 'white', fontWeight: 'bold', fontSize: 27,
                         textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
                     }}><Ionicons name="md-chevron-back" size={30} color="#ffff" /></Text>
                 </TouchableOpacity>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 15, fontSize: 20,
+                    color: 'white',  fontFamily:'Montserrat-SemiBold', marginVertical: 15, fontSize: 20,
                     textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
                 }}>{route.params.fn} {route.params.ln}  </Text>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 15, fontSize: 20,
+                    color: 'white',  fontFamily:'Montserrat-SemiBold', marginVertical: 15, fontSize: 20,
                     textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
                 }}>{route.params.bg}</Text>
             </View>
@@ -134,7 +207,7 @@ export default function Map({ navigation, route }) {
                             width={48}
                             height={48} >
 
-                            <Callout>
+                            <Callout  onPress={() => {socialShare(d)}}>
                                 <View style={{ alignItems: 'center', marginTop: -22 }}>
                                     <View>
 
@@ -166,6 +239,36 @@ export default function Map({ navigation, route }) {
                         
                     })}
 
+
+                    {/* {locationData.map((d, i) => {
+                        return <Marker
+                            key={i}
+                            center={{
+                                latitude: Number(d.ala),
+                                longitude: Number(d.alo),
+                            }}
+                            radius={200}
+                            fillColor={'#AADAFF'}
+                            // image={require('./pin.png')}
+                            width={48}
+                            height={48}
+                            title={d.fn + " " + d.ln+"    "+  d.bloodgroup}
+                            description={"Gender: "+d.gender}
+                        >
+                        <Image source={require('./pin.png')} style={{height: 45, width:45 }} />
+                        </Marker>
+                    })} */}
+
+
+                    {/* <Marker
+                        coordinate={{
+                            latitude: la,
+                            longitude: lo,
+                        }}
+                        // image={require('./pin.png')}
+                        title={route.params.fn + " " + route.params.ln}
+                        description={"Blood Group " + route.params.bg}
+                    /> */}
                 </MapView>
             </View>
 

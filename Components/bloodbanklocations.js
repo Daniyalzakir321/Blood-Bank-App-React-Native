@@ -14,14 +14,14 @@ export default function BloodBanksLocations({navigation}) {
             <StatusBar barStyle="light-content" backgroundColor="#d2232a" />
             <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', backgroundColor: "#d2232a", elevation: 5, width: '100%', }}>
                 <TouchableOpacity activeOpacity={0.8} onPress={() => navigation.goBack()}
-                    style={{ marginLeft: -20, marginVertical: 14, width: 30, }}>
+                    style={{ marginLeft: -10, marginVertical: 14, width: 30, }}>
                     <Text style={{
                         color: 'white', fontWeight: 'bold', fontSize: 27,
                         textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
                     }}><Ionicons name="md-chevron-back" size={30} color="#ffff" /></Text>
                 </TouchableOpacity>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 15, fontSize: 20,
+                    color: 'white',  fontFamily:'Montserrat-SemiBold', marginVertical: 15, fontSize: 20,
                     textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
                 }}>Donate To Blood Bank</Text>
                 <Text style={{

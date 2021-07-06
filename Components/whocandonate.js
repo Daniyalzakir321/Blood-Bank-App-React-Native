@@ -18,7 +18,7 @@ export default function Whocandonate({ navigation }) {
                     }}><Ionicons name="md-chevron-back" size={30} color="#ffff" /></Text>
                 </TouchableOpacity>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 15, fontSize: 20,
+                    color: 'white', fontFamily:'Montserrat-SemiBold', marginVertical: 15, fontSize: 20,
                     textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
                 }}>Blood Groups</Text>
                 <Text style={{marginVertical:18}}><MaterialCommunityIcons name="blood-bag" size={22} color="#ffff" /></Text>
@@ -26,11 +26,11 @@ export default function Whocandonate({ navigation }) {
          
             <View style={{ alignItems:'center' }}>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 5, fontSize: 25, marginTop: 50,
+                    color: 'white', fontFamily:'Montserrat-Bold', marginVertical: 5, fontSize: 23, marginTop: 50,
                     textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
                 }}>WHICH BLOOD TYPES</Text>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 5, fontSize: 15,
+                    color: 'white', fontFamily:'Montserrat-Bold', marginVertical: 5, fontSize: 15,
                     textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
                 }}>AM I COMPATIBLE WITH?</Text>
             </View>

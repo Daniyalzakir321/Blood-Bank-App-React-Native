@@ -16,10 +16,13 @@ import { useSelector } from 'react-redux'
 const { width, height } = Dimensions.get('window');
 
 export default function Setting({ navigation, route }) {
+    
+    const [activityIndicator, setActivityIndicator] = useState(true)
+
 
     const data = useSelector(state => state.user)
-    console.log('ddddddddddddddddd', data.UserEmail)
-    // console.log('NNNNNNN', route.params.email)
+    // console.log('ddddddddddddddddd', data.UserEmail)
+    console.log('route.params.email==>>', route.params.email)
 
     // const e_mail=route.params.email
     // console.log("oooo",e_mail)
@@ -34,9 +37,9 @@ export default function Setting({ navigation, route }) {
     const [registerdatetime, setRegisterdatetime] = useState('')
 
     useEffect(() => {
-        firestore().collection('USER-DATA').doc(data.UserEmail).get()
+        firestore().collection('USER-DATA').doc(route.params.email).get()
             .then(function (doc) {
-                setFn(doc.data().FirstName),
+                     setFn(doc.data().FirstName),
                     setLn(doc.data().LastName),
                     setGender(doc.data().Gender),
                     setBloodgroup(doc.data().BloodGroup),
@@ -47,6 +50,7 @@ export default function Setting({ navigation, route }) {
             })
             .then(() => {
                 console.log('✅ Search Successfull')
+                setActivityIndicator(false)
             })
             .catch((error) => {
                 console.log(error.message);
@@ -146,8 +150,9 @@ export default function Setting({ navigation, route }) {
                     }}><Ionicons name="md-chevron-back" size={27} color="#ffff" /></Text>
                 </TouchableOpacity>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 7, fontSize: 20,
+                    color: 'white', marginVertical: 7, fontSize: 20,
                     textShadowColor: 'grey', textShadowOffset: { width: 1, height: 1 }, textShadowRadius: 5,
+                    fontFamily:'Montserrat-SemiBold',
                 }}>Settings </Text>
                 <Text style={{ marginVertical: 13 }}><Ionicons name="md-settings-outline" size={20} color="white" /></Text>
             </View>
@@ -155,17 +160,18 @@ export default function Setting({ navigation, route }) {
 
             <View style={{ alignItems: 'center' }}>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 2, fontSize: 20, marginTop: 13,
+                    color: 'white', marginVertical: 2, fontSize: 20, marginTop: 13,
                     textShadowColor: 'grey', textShadowOffset: { width: 0.5, height: 0.5 }, textShadowRadius: 5,
+                    fontFamily:'Montserrat-Bold',
                 }}>Edit Your Details  <Feather name="edit" size={19} color="white"  /> </Text>
                 <Text style={{
-                    color: 'white', fontWeight: 'bold', marginVertical: 3, fontSize: 12, marginTop: 0,
+                    color: 'white', marginVertical: 3, fontSize: 12, marginTop: 0,
                     textShadowColor: 'grey', textShadowOffset: { width: 0.5, height: 0.5 }, textShadowRadius: 5,
+                    fontFamily:'Montserrat-SemiBold',
                 }}>Member: {onlyDate}<FontAwesome name="user-circle" size={12} color="white"/></Text>
             </View>
 
-
-
+    {  activityIndicator ?<Settings2 />:
             <Content style={{ marginHorizontal: 18, marginTop: 5 }}>
 
                 <Item floatingLabel style={{ marginBottom: 15, marginTop: 4, color: '#ffff' }}>
@@ -300,10 +306,7 @@ export default function Setting({ navigation, route }) {
                 </TouchableOpacity>
 
             </Content>
-
-
-
-
+        }
 
         </View>
     )
@@ -331,3 +334,13 @@ const pickerSelectStyles = StyleSheet.create({
         color: 'white',
     },
 });
+
+
+
+export function Settings2() {
+    return (
+        <View style={{display:'flex', alignItems:'center', justifyContent:'center', marginTop:200}}>
+            <ActivityIndicator size="large" color="#ffff" />
+        </View>
+    )
+}
